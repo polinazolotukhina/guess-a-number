@@ -67,7 +67,7 @@
         // Lucky guess
         if (inputNum == strRand) {
           this.setState({
-            message: 'You did it!',
+            message: 'You did it! You guess the number with ' + this.state.guesses + ' attampts',
             color: green
           })
           return false;
