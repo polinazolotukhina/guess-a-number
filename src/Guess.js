@@ -1,12 +1,7 @@
   import React, { Component } from 'react';
   import './App.css';
 
-  let red = '#e51414';
-  let green = '#04d34c';
-  let blue = '#00aeff';
-  let yellow='#ffe102'
-
-  class Guess extends Component {
+  class Guess extends  React.Component {
     constructor(props){
       super(props);
       this.state = {
@@ -22,7 +17,7 @@
     }
 
     randomN(){
-       var randomNum = Math.floor(Math.random() * 9999);
+       let randomNum = Math.floor(Math.random() * 9999);
       randomNum = randomNum.toString();
       while (randomNum.length < 4) {
         randomNum = "0" + randomNum;
@@ -31,49 +26,52 @@
     }
 
     guessMe(inputNum){
-      var chances = this.state.chances;
-      var str = inputNum.toString();
-      var input = str.split("");
+      let chances = this.state.chances;
+      let str = inputNum.toString();
+      let input = str.split("");
 
-      if(chances == 14 ){
-        this.setState({
-            message: "Hint: it's 4 digit number!",
-            color: blue
-        })
-      }
-      else if((chances < 14) &&(chances != 2) ){
-        this.setState({
-            message: "",
-            
-        })
-      }
-      else if(chances == 2 ){
-        this.setState({
-            message: 'Just one more chance left!',
-            color: yellow
-        })
-      }
-
-      if (chances > 1) {
-        // Reduce the attempt and increase guesses
+     let mes;
+      let col;
+    
+      if (chances > 0) {
+        switch (chances) {
+    case 1:
+        mes = "You lost";
+        col = "#ef0e0e";
+        break; 
+    case 2:
+        mes = "Last chance!";
+        col = "#a110ef";
+        break;
+    case 14:
+        mes = "Hint: it's 4 digit number"
+        col = "#0a84ff";
+        break;
+    default: 
+        mes = "";
+}
+             
         this.setState({
           chances: this.state.chances - 1,
           guesses: this.state.guesses + 1,
+          message: mes,
+          color: col
         })
 
-        var strRand = this.state.magicNumber
-        var pok = strRand.split("");
+        let strRand = this.state.magicNumber
+        let pok = strRand.split("");
 
         // Lucky guess
+         // Lucky guess
         if (inputNum == strRand) {
           this.setState({
             message: 'You did it! You guess the number with ' + this.state.guesses + ' attampts',
-            color: green
+            color:"#0de21b"
           })
           return false;
         } else {
-          var res = []
-          for (var i = 0; i < pok.length; i++) {
+          const res = []
+          for (let i = 0; i < pok.length; i++) {
             if (pok[i] != input[i]) {
               res.push('*');
             } else {
@@ -83,17 +81,9 @@
           this.setState({
             result: res
           })
-          return false;
+          
         }
-      } else { // No more chances
-        this.setState({
-          message: 'You lost...',
-          color:red,
-          guesses: this.state.guesses + 1,
-          chances: this.state.chances - 1,
-        });
-        return false;
-      }
+      } 
     }
 
     numberOnly(e){
@@ -135,5 +125,7 @@
       );
     }
   }
+
+
 
   export default Guess;
