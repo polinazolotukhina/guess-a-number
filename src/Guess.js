@@ -103,12 +103,6 @@
       this.guessMe(this.state.numberGuess)
     }
 
-    handleClick(){
-      this.setState({
-        polina: this.state.polina +1
-      })
-    }
-
     render() {
       return (
         <div className="container">
